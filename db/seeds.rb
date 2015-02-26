@@ -13,5 +13,10 @@ movie_years = (1927..2015)
   movie_date = Date.new(random_year,random_month,random_day)
 
   puts "Creating Movie #{title}"
-  Movie.create!(title: title, rating: Movie::RATINGS.sample, total_gross: gross.sample, description: Faker::Lorem.paragraphs(rand(1..3)), released_on: movie_date)
+  movie = Movie.create!(title: title, rating: Movie::RATINGS.sample, total_gross: gross.sample, description: Faker::Lorem.paragraphs(rand(1..3)), released_on: movie_date)
+
+  1.upto(rand(0..3)) do
+    movie.reviews.create!(name: Faker::Name.name, stars: rand(1..5), comment: Faker::Lorem.paragraph)
+  end
+
 end
