@@ -1,0 +1,51 @@
+From http://g33kinfo.com/info/archives/4872
+
+We'll use the command line tool 'curl', see man curl, to create
+HTTP Requests to the http://echo.httpkit.com HTTP Server.
+
+This will reply with a JSON representation of the request.
+
+* Make a GET Request
+curl http://echo.httpkit.com
+
+* Make a GET Request with URL params
+curl http://echo.httpkit.com/path?query=string
+
+* Set the HTTP method to POST
+curl -X POST echo.httpkit.com
+
+* Set the HTTP method to DELETE
+curl -X DELETE echo.httpkit.com
+
+* Set HTTP Request Headers
+curl -H "Accept: application/json" -H "Authorization: OAuth 2c3455d1aeffc" http://echo.httpkit.com
+
+* Set a Request Body
+curl -X PUT -H 'Content-Type: application/json' -d '{"firstName":"Kris", "lastName":"Jordan"}' echo.httpkit.com
+
+* POST HTML Form Data
+curl -d "firstName=Kris" -d "lastName=Jordan" echo.httpkit.com
+curl -F "variable=value;variable2=value2" http://localhost:3000/your/url
+
+* View Response Headers
+curl -i echo.httpkit.com
+
+
+* Download a file
+curl -O www.example.com/img.gif
+
+* See if a site is alive
+curl --head www.yahoo.com
+
+* Authenticate with username and password (http-basic if not specified otherwise):
+curl -u user:password http://example.com/whatever
+
+* Save cookies to a file.
+curl -c cookies.txt  -F "username=meepo" -F "password=curiass"  http://example.com/login
+
+* Pass saved cookies back to the server
+curl -b cookies.txt http://example.com/action
+
+curl -b key=value http://example.com/action
+
+curl -H 'Cookie: key=value' http://example.com/action

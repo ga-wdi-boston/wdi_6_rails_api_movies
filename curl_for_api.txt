@@ -1,0 +1,21 @@
+# Get all articles
+curl localhost:3000
+OR
+curl localhost:3000/articles
+
+# Get article with ID of 3
+curl localhost:3000/articles/3
+
+# Create an article
+# Check in the rails server log and rails console that the article was created.
+curl -X POST -d "article[title]=Another article" -d "article[body]=body of article" localhost:3000/articles
+
+# Delete Article 8
+# Check in the rails server log and rails console that the article was deleted.
+curl -X DELETE localhost:3000/articles/9
+
+# Delete Article 8
+# If we used the strong params then we would need to do this
+# Need the -d because strong params require the id to be inside a hash with the key
+# article.
+curl -v -X DELETE -d "article[id]=9" localhost:3000/articles/9
