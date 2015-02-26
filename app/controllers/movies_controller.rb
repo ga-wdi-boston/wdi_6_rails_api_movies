@@ -19,9 +19,24 @@ class MoviesController < ApplicationController
     end
   end
 
+  def update
+
+    @movie = Movie.find(params[:id])
+
+    if @move.update(movie_params[:movie])
+      head :no_content
+    else
+      render json: @movie.errors, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @movie = Movie.find(params[:id])
+    @movie.destroy
+  end
   private
 
   def movie_params
-    params.require(:movie).permit(:title, :rating, :description, :total_gross, :released_on)
+    params.require(:movie).permit( :title, :rating, :description, :total_gross, :released_on)
   end
 end
