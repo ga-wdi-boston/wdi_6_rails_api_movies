@@ -25,34 +25,34 @@ This is a simple API for a Movie service. It will have Movies and Reviews.
 
 * Install the Chrome Extensions, [JSON Prettfier](http://goo.gl/0ueVkS), [Postman Chrome Extension](http://goo.gl/daZ5Q) and [Postman Launcher](https://chrome.google.com/webstore/detail/postman-launcher/igofndmniooofoabmmpfonmdnhgchoka/related).  
 
-* In Chrome go to [localhost](http://localhost:3000) to show all the Articles and their Comments. 
+* In Chrome go to [localhost](http://localhost:3000) to show all the Movies and their Review. 
 
 ### Lab
 
 Using _curl_ or _postman_   
 _For all the above view the rails server log and use the rails console to verify._
  
-* Show all the articles
-* Show the article with id = 3
-* Create a new article.
-* Delete an article
+* Show all the movies
+* Show the movie with id = 3
+* Create a new movie.
+* Delete an movie.
 
 See "man curl", [Curl Cheat Sheet](curl_cheat.txt) and [Curl API](curl_for_api.txt) for curl info.
 
 #### Demo
 
 
-Your turn to Create a JSON API that will allow _Users_ to _Comment_ on _Articles_.
+Your turn to Create a JSON API that will allow users to _Review_  _Movies_.
 
 * cd into a directory that will contain this new app.
 
 * Install the rails-api gem  
   ``gem install rails-api`` 
 
-* Generate a "new_articles" Rails API app.  
-  ``rails-api new articles_api -d postgresql -T``
+* Generate a "new_movies" Rails API app.  
+  ``rails-api new movies_api -d postgresql -T``
     
-  ``cd articles_api``
+  ``cd movies_api``
   
   ``bundle``  
   ``rake db:drop``  
@@ -89,28 +89,23 @@ Your turn to Create a JSON API that will allow _Users_ to _Comment_ on _Articles
 	Only 19 Middleware as opposed to 24 in a full Rails app.
 	
 
-* Generate a Article resource with scaffolding.  
-  ``rails g scaffold Article title body:text``  
+* Generate a Movie model.
+  ``rails g model Movie title rating total_gross:integer description:text released_on:date``  
 	
-	Notice that this scaffold generator creates much less than is typically generated. 
-	No views are generated!
-	
-* Open up the app/controllers/articles_controller.rb
+
+* Open up the app/controllers/movies_controller.rb
 
 	Notice how 'thin' this controller is. Missing lots of code typically found in a controller.
 	
-   It has most of default actions, _missing new and edit_. BUT this app only provides a JSON "Representation" of the resource. Previously we where always outputting a HTML "Representation" of the resource.
+   It has most of default actions, _missing new and edit_. BUT this app only provides a JSON "Representation" of the resource. Previously we where always outputting a HTML "Representation" of the resource.Review
 
 
-* Generate a User model.  
-  ``rails g model User email``
+* Generate a Review resource.  
+  ``rails g model Review name stars:integer comment:text movie:belongs_to`` 
 
-* Generate a Comment resource.  
-  ``rails g scaffold Comment body:text user:belongs_to article:belongs_to``  
+	Reviews are just a join model between a specific user and movie. The review only contains a body that holds the review content.
 
-	Comments are just a join model between a specific user and article. The comment only contains a body that holds the comment content.
-
-* Copy the seed file from this repos db/seeds.db to the articles_api/db/seeds.db.  
+* Copy the seed file from this repos db/seeds.db to the movies_api/db/seeds.db.  
 
 	``cp ../wdi_6_rails_lab_api/db/seeds.rb db/seeds.rb``  
 
@@ -124,19 +119,19 @@ Your turn to Create a JSON API that will allow _Users_ to _Comment_ on _Articles
 (make sure you set up the proper relationships before seeding!)
   
 
-This will create 30 Users, 10 Articles	and and each Article will have some Comments. _Take a look at the seed file if your curious._
+This will create 30 Users, 10 Movies	and and each Movie will have some Reviews. _Take a look at the seed file if your curious._
 
 * Check out the routes.rb.  
 Why don't we need the new and edit action?
 
-	This is Article resource is truely a RESTFUL resource. Not cluttered up with actions to create forms.
+	This is Movie resource is truely a RESTFUL resource. Not cluttered up with actions to create forms.
 
-* Add a root route for articles index.  
-  ``root 'articles#index'``
+* Add a root route for movies index.  
+  ``root 'movies#index'``
 
-	Now we have a set of Users, Articles and Comments.
+	Now we have a set of Users, Movies and Reviews.
 	
-* Start the server. And we see all the Articles!!!!
+* Start the server. And we see all the Movies!!!!
 
 
 
@@ -144,10 +139,10 @@ Why don't we need the new and edit action?
 * Check this API using _curl_ or _postman_ 
 _For all the above view the rails server log and use the rails console to verify._
  
-	* Show all the articles
-	* Show the article with id = 3
-	* Create a new article.
-	* Delete an article
+	* Show all the movies
+	* Show the movie with id = 3
+	* Create a new movie.
+	* Delete an movie
 
 	See "man curl", [Curl Cheat Sheet](curl_cheat.txt) and [Curl API](curl_for_api.txt) for curl info.
 
@@ -159,18 +154,18 @@ _For all the above view the rails server log and use the rails console to verify
 
 
 #### Demo
-Change the JSON representation for Articles and Comments.
+Change the JSON representation for Movies and Reviews.
 
 * Add the active_model_serializers gem to the Gemfile and bundle.
 	``gem 'active_model_serializers'`` 
 
-* Generate a serializer for the Article resource.  
-	``rails g serializer article``
+* Generate a serializer for the Movie resource.  
+	``rails g serializer movie``
 
 * Add the title and body attributes in the serializer. 
   `attributes :id, :title, :body`
 
-	This will constrain/limit the JSON returned for an Article to show only the id , title, body. 
+	This will constrain/limit the JSON returned for an Movie to show only the id , title, body. 
 
 * restart server and got to the root.
 
@@ -179,7 +174,7 @@ Change the JSON representation for Articles and Comments.
 
 * Lets get rid of the root node in the JSON generated. 
 	
- Add this to the Articles controller.
+ Add this to the Movies controller.
  
 	```
 	def default_serializer_options
@@ -188,17 +183,17 @@ Change the JSON representation for Articles and Comments.
 	```
 
 
-* Lets embed comments for each article in the JSON.
+* Lets embed reviews for each movie in the JSON.
 
-Add this to the Article serializer.  
-	``has_many :comments``
+Add this to the Movie serializer.  
+	``has_many :reviews``
 
-* Generate a serializer for comment and add the body attribute.  
-	``rails g serializer Comment`` 
+* Generate a serializer for review and add the body attribute.  
+	``rails g serializer Review`` 
 
-Now the comment only show it's id and body.
+Now the review only show it's id and body.
 
-* Lets show the comment creator and user that commented. Add this to the Comment serializer.  
+* Lets show the review creator and user that reviewed. Add this to the Review serializer.  
 	``attributes :id, :body, :creator``
 
 	   ```
