@@ -20,10 +20,8 @@ class MoviesController < ApplicationController
   end
 
   def update
-
     @movie = Movie.find(params[:id])
-
-    if @move.update(movie_params[:movie])
+    if @movie.update(movie_params)
       head :no_content
     else
       render json: @movie.errors, status: :unprocessable_entity
@@ -34,6 +32,7 @@ class MoviesController < ApplicationController
     @movie = Movie.find(params[:id])
     @movie.destroy
   end
+
   private
 
   def movie_params
