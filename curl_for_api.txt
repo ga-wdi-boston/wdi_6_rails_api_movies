@@ -1,21 +1,43 @@
-# Get all articles
+#####################################
+# Get all movies
+
 curl localhost:3000
 OR
-curl localhost:3000/articles
+curl localhost:3000/movies
 
-# Get article with ID of 3
-curl localhost:3000/articles/3
+#####################################
+# Get movie with ID of 3
 
-# Create an article
-# Check in the rails server log and rails console that the article was created.
-curl -X POST -d "article[title]=Another article" -d "article[body]=body of article" localhost:3000/articles
+curl localhost:3000/movies/3
 
-# Delete Article 8
-# Check in the rails server log and rails console that the article was deleted.
-curl -X DELETE localhost:3000/articles/9
+#####################################
+# Create an movie
 
-# Delete Article 8
+# Check in the rails server log and rails console that the movie was created.
+curl -X POST -d "movie[title]=Movie 2&movie[rating]=r&movie[total_gross]=124000&movie[description]=Movie 2 description" http://localhost:3000/movies
+
+#####################################
+# Update a movie, make sure the id, 17 here, is valid!!
+
+curl -X PATCH -d "movie[total_gross]=777000" http://localhost:3000/movies/17
+
+# OR
+curl -X PUT -d "movie[total_gross]=560000" http://localhost:3000/movies/17
+
+#####################################
+# Delete Movie with and id of 7
+
+# Check in the rails server log and rails console that the movie was deleted.
+curl -X DELETE localhost:3000/movies/7
+
+# Oops,  we're using strong params. Need the id in the params
+
+# Delete Movie 7
 # If we used the strong params then we would need to do this
-# Need the -d because strong params require the id to be inside a hash with the key
-# article.
-curl -v -X DELETE -d "article[id]=9" localhost:3000/articles/9
+# Need the -d because strong params require the id to be inside a hash with
+# the key movie
+curl -v -X DELETE -d "movie[id]=7" localhost:3000/movies/7
+
+# Ooops only admin path can delete!!
+
+curl -v -X DELETE -d "movie[id]=11" localhost:3000/admin/movies/11

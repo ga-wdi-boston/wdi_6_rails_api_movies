@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Movies' do
+describe 'Admin::Movies' do
 
   before do
     @movie = Movie.create!(title: "Birdman", rating: 'r', total_gross: 9_300_000, description: "birdman", released_on: Date.parse("October 17, 2014"))
@@ -12,7 +12,7 @@ describe 'Movies' do
       Movie.create(title: "Movie_#{i}", rating: 'r', description: "Movie_#{i} description");
     end
 
-    get '/movies'
+    get '/admin/movies'
     expect(response).to be_success
 
     json = JSON.parse(response.body)
@@ -24,7 +24,7 @@ describe 'Movies' do
 
 
   it "#show" do
-    get "/movies/#{@movie.id}"
+    get "/admin/movies/#{@movie.id}"
     expect(response).to be_success
 
     movie = JSON.parse(response.body)
@@ -32,7 +32,7 @@ describe 'Movies' do
   end
 
   it "#create" do
-    post "/movies",
+    post "/admin/movies",
         {movie: {title: "Jaws", description: 'Big shark eats everyone' }}.to_json,
         { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
     expect(response).to be_success
@@ -59,7 +59,7 @@ describe 'Movies' do
   end
 
   it "#create with reviews" do
-    post "/movies",
+    post "/admin/movies",
         ben_hur_params.to_json,
         { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
     expect(response).to be_success
@@ -81,7 +81,7 @@ describe 'Movies' do
   end
 
   it "#update" do
-    put "/movies/#{@movie.id}",
+    put "/admin/movies/#{@movie.id}",
         {movie: {description: 'A new description' }}.to_json,
         { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
     expect(response).to be_success
@@ -92,11 +92,10 @@ describe 'Movies' do
 
   end
 
-  # it "#destroy" do
-  #   delete "/movies/#{@movie.id}"
-  #   expect(response.status).to_not eq(200)
-  # end
-
+  it "#destroy" do
+    delete "/admin/movies/#{@movie.id}"
+    expect(response.status).to eq(200)
+  end
 
   private
   def check_remote_movie(movie)

@@ -28,14 +28,11 @@ class MoviesController < ApplicationController
     end
   end
 
-  def destroy
-    @movie = Movie.find(params[:id])
-    @movie.destroy
-  end
+  protected
 
-  private
-
+  # this method will also be used by subclasses
   def movie_params
-    params.require(:movie).permit( :title, :rating, :description, :total_gross, :released_on, reviews_attributes: [:name, :stars, :comment])
+    params.require(:movie).permit(:title, :rating, :description, :total_gross, :released_on, reviews_attributes: [:name, :stars, :comment])
   end
+
 end
