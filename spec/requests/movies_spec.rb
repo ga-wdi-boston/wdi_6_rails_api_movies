@@ -92,10 +92,9 @@ describe 'Movies' do
 
   end
 
-  # it "#destroy" do
-  #   delete "/movies/#{@movie.id}"
-  #   expect(response.status).to_not eq(200)
-  # end
+  it "#destroy" do
+      expect { delete "/movies/#{@movie.id}" }.to raise_error(ActionController::RoutingError)
+  end
 
 
   private
