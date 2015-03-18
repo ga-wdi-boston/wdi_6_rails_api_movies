@@ -22,7 +22,6 @@ describe 'Movies' do
     expect(json.length).to eq 6
   end
 
-
   it "#show" do
     get "/movies/#{@movie.id}"
     expect(response).to be_success
@@ -92,12 +91,8 @@ describe 'Movies' do
 
   end
 
-  it "#destroy" do
-      expect { delete "/movies/#{@movie.id}" }.to raise_error(ActionController::RoutingError)
-  end
-
-
   private
+
   def check_remote_movie(movie)
     expect(movie['title']).to eq "Birdman"
     expect(movie['total_gross'].to_i).to eq 9_300_000

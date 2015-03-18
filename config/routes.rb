@@ -6,4 +6,6 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :movies
   end
+
+  match "/404", :to => "errors#not_found", via: [:get]
 end

@@ -31,6 +31,11 @@ module Wdi6RailsApiMovies
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
+    # This app will ALSO be used as the Rack app to handle errors.
+    config.exceptions_app = self.routes
+    # Remove this middleware, it messes up the JSON error handling!
+    config.middleware.delete "ActionDispatch::DebugExceptions"
+
     # Add Rack::Cors as middleware
     # WARNING: Allow ALL cross site scripting
     config.middleware.use Rack::Cors do
