@@ -34,7 +34,8 @@ module Wdi6RailsApiMovies
     # This app will ALSO be used as the Rack app to handle errors.
     config.exceptions_app = self.routes
     # Remove this middleware, it messes up the JSON error handling!
-    config.middleware.delete "ActionDispatch::DebugExceptions"
+    # rails console needs this?
+    # config.middleware.delete "ActionDispatch::DebugExceptions"
 
     # Add Rack::Cors as middleware
     # WARNING: Allow ALL cross site scripting
