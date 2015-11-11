@@ -13,8 +13,14 @@ curl localhost:3000/movies/3
 #####################################
 # Create an movie
 
-# Check in the rails server log and rails console that the movie was created.
+# With form encoding
 curl -X POST -d "movie[title]=Movie 2&movie[rating]=r&movie[total_gross]=124000&movie[description]=Movie 2 description" http://localhost:3000/movies
+
+# With JSON
+curl -X POST -H 'Content-Type: application/json' -d '{"movie":{"title":"Black Mass", "rating":"R", "description":"Crime, South Boston", "total_gross": "144_000_000"}}' http://localhost:3000/movies
+
+# with JSON and creating one review.
+curl -X POST -H 'Content-Type: application/json' -d '{"movie": {"title":"New Movie Black Mass", "rating":"R", "description":"Crime, South Boston", "total_gross": "144_000_000", "reviews_attributes": [{"name": "Joe", "comment": "Sucks", "stars": "3"}]} }' http://localhost:3000/movies
 
 #####################################
 # Update a movie, make sure the id, 17 here, is valid!!
@@ -23,6 +29,9 @@ curl -X PATCH -d "movie[total_gross]=777000" http://localhost:3000/movies/17
 
 # OR
 curl -X PUT -d "movie[total_gross]=560000" http://localhost:3000/movies/17
+
+# Update the total gross for Movie with id = 3
+curl -X PATCH -H 'Content-Type: application/json' -d '{"movie": {"total_gross": "789_000_000"}}' http://localhost:3000/movies/3
 
 #####################################
 # Delete Movie with and id of 7
