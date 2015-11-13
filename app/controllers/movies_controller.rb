@@ -1,5 +1,20 @@
 class MoviesController < ApplicationController
 
+  def query
+    # /movies/q/title/Jaws/description/shark
+    # => params[:specs]
+    # title/Jaws/description/shark
+    # => String#split
+    # ['title','Jaws','description', 'shark']
+    # => Hash['title','Jaws','description', 'shark']
+    @movies = Movie.where(Hash[*params[:specs].split("/")])
+    if @movies.empty?
+      head :no_content
+    else
+      render json: @movies
+    end
+  end
+
   def index
     @movies = Movie.all
     render json: @movies
