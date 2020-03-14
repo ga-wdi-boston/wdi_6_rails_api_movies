@@ -8,7 +8,7 @@ gem 'active_model_serializers',
     :branch => '0-8-stable'
 
 group :development, :test do
-  gem 'web-console', '~> 2.0'
+  gem 'web-console', '~> 2.1'
   gem 'spring'
   gem 'capybara'
   gem 'rubocop'
